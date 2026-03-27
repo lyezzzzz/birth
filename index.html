@@ -6,262 +6,138 @@
     <title>给雯的生日惊喜 🎀</title>
     <style>
         :root {
-            --bg-color: #fff9fb;
             --main-pink: #ffb7c5;
             --soft-yellow: #ffedbc;
             --text-color: #7d5a5a;
-            --macaron-pink: #ffc0cb;
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            font-family: 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-            background-color: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--text-color);
-            -webkit-tap-highlight-color: transparent;
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            overflow: hidden; background-color: #fff9fb;
+            display: flex; justify-content: center; align-items: center;
+            font-family: sans-serif; -webkit-tap-highlight-color: transparent;
         }
 
-        /* 🌸 背景装饰层 🌸 */
+        /* 🌸 背景装饰：设为不可交互，防止阻挡点击 🌸 */
         #emoji-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-            pointer-events: none;
+            position: absolute; width: 100%; height: 100%;
+            top: 0; left: 0; z-index: 1; pointer-events: none;
         }
 
         .float-emoji {
-            position: absolute;
-            font-size: 24px;
-            animation: floatUp 6s linear infinite;
-            opacity: 0.6;
+            position: absolute; font-size: 24px;
+            animation: floatUp 5s linear infinite; opacity: 0.6;
         }
 
         @keyframes floatUp {
-            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            0% { transform: translateY(110vh); opacity: 0; }
             20% { opacity: 0.6; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+            100% { transform: translateY(-10vh); opacity: 0; }
         }
 
-        /* 💖 核心：全屏转场特效层 💖 */
-        #transition-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: transparent;
-            z-index: 100; /* 最高层级 */
-            display: none;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        #transition-heart {
-            width: 0;
-            height: 0;
+        /* 💖 全屏转场心形 💖 */
+        #heart-transition {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--main-pink);
-            border-radius: 50%; /* 初始为点，扩散为心 */
-            opacity: 0;
-            transform: scale(0);
+            z-index: 999; display: none; opacity: 0;
+            transition: opacity 0.5s;
         }
 
-        /* 心形动画 */
-        。heart-explode {
-            animation: heartExplode 1.2s ease-out forwards;
-        }
-
-        @keyframes heartExplode {
-            0% { width: 10px; height: 10px; border-radius: 50%; opacity: 0; transform: scale(1); }
-            10% { opacity: 1; }
-            50% { width: 300px; height: 300px; border-radius: 50% 50% 0 0 / 50% 50% 0 0; transform: scale(2); }
-            100% { width: 100vw; height: 100vw; border-radius: 0; transform: scale(3); opacity: 0; visibility: hidden; }
-        }
-
-        /* 可爱卡片 */
+        /* 主卡片：层级必须高于背景 */
         .card {
-            width: 82%;
-            max-width: 320px;
-            background: white;
-            padding: 40px 20px;
-            border-radius: 40px;
+            width: 85%; max-width: 320px; background: white;
+            padding: 40px 20px; border-radius: 40px;
             box-shadow: 0 10px 25px rgba(255, 183, 197, 0.3);
-            text-align: center;
-            z-index: 10;
+            text-align: center; z-index: 100;
             border: 4px solid var(--soft-yellow);
             position: relative;
-            transition: opacity 0.5s ease-in;
         }
 
-        .card::before {
-            content: '☁️';
-            position: absolute;
-            top: -25px;
-            left: 20px;
-            font-size: 40px;
-        }
-
-        /* 🎂 蛋糕容器 */
-        .cake-wrapper {
-            display: inline-block;
-            cursor: pointer;
-            padding: 20px;
-            transition: transform 0.2s;
-        }
-        
-        。cake-wrapper:active {
-            transform: scale(0.9);
-        }
-
-        .cake {
-            font-size: 80px;
-            animation: wiggle 2s ease-in-out infinite;
+        /* 🎂 蛋糕点击区：加大范围 */
+        .cake-btn {
+            font-size: 80px; cursor: pointer; display: inline-block;
+            padding: 20px; animation: wiggle 2s infinite;
+            -webkit-user-select: none; touch-action: manipulation;
         }
 
         @keyframes wiggle {
-            0%, 100% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
+            0%, 100% { transform: rotate(-5deg) scale(1); }
+            50% { transform: rotate(5deg) scale(1.1); }
         }
 
-        h1 {
-            font-size: 1.6rem;
-            color: var(--main-pink);
-            margin-top: 10px;
-            letter-spacing: 2px;
-        }
+        h1 { color: var(--main-pink); font-size: 1.5rem; }
+        #message { line-height: 1.8; margin: 20px 0; min-height: 60px; font-weight: bold; }
 
-        。name-tag {
-            background: var(--soft-yellow);
-            padding: 2px 10px;
-            border-radius: 10px;
-            color: #d48a8a;
-        }
-
-        #message {
-            line-height: 1.8;
-            font-size: 1rem;
-            margin-top: 20px;
-            min-height: 80px;
-        }
-
-        /* 🎀 美化后的“再看一遍”按钮 🎀 */
-        .btn {
-            background: var(--macaron-pink);
-            color: white;
-            border: none;
-            padding: 15px 45px;
-            border-radius: 50px;
-            margin-top: 30px;
-            font-size: 1rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            /* 制作扁平化可爱阴影 */
-            box-shadow: 0 5px 0px #e6a1af; 
-            transition: all 0.2s;
-            cursor: pointer;
-            display: inline-block;
-            text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
-        }
-
-        。btn:active {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0px #e6a1af;
+        .macaron-btn {
+            background: var(--main-pink); color: white; border: none;
+            padding: 12px 30px; border-radius: 50px; font-size: 1rem;
+            box-shadow: 0 4px 0 #e6a1af; cursor: pointer;
         }
 
         .hidden { display: none !important; }
-        .transparent { opacity: 0; }
     </style>
 </head>
 <body>
 
-    <div id="transition-overlay">
-        <div id="transition-heart"></div>
-    </div>
-
     <div id="emoji-container"></div>
+    <div id="heart-transition"></div>
 
-    <div class="card" id="card">
-        <div id="start-screen">
-            <div class="cake-wrapper" onclick="startCelebration()">
-                <div class="cake">🎂</div>
-            </div>
-            <p style="margin-top:10px; color:#aaa; font-size: 0.9rem;">点点小蛋糕<br>看看维雯的生日惊喜</p>
+    <div class="card">
+        <div id="start-page">
+            <div class="cake-btn" onclick="go()">🎂</div>
+            <p style="color:#aaa;">点点小蛋糕<br>给维雯的惊喜</p>
         </div>
 
-        <div id="content" class="hidden transparent">
-            <h1><span class="name-tag">许维雯</span><br>生日快乐呀！🌸</h1>
+        <div id="end-page" class="hidden">
+            <h1>许维雯 生日快乐！🌸</h1>
             <div id="message"></div>
-            <button class="btn" onclick="location.reload()">再吃一次蛋糕</button>
+            <button class="macaron-btn" onclick="location.reload()">再来一次</button>
         </div>
     </div>
 
     <script>
-        // 生成可爱漂浮物
-        const emojis = ['🎈', '🍬', '✨', '☁️', '🍓', '🎀', '🧸'];
-        function createEmojis() {
-            const container = document.getElementById('emoji-container');
-            setInterval(() => {
-                const emoji = document.createElement('div');
-                emoji.className = 'float-emoji';
-                emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-                emoji.style.left = Math.random() * 90 + 'vw';
-                emoji.style.animationDuration = (Math.random() * 3 + 4) + 's';
-                container.appendChild(emoji);
-                setTimeout(() => emoji.remove(), 6000);
-            }, 6000 / emojis.length);
+        function go() {
+            // 1. 立即触发转场
+            const trans = document.getElementById('heart-transition');
+            trans.style.display = 'block';
+            setTimeout(() => { trans.style.opacity = '1'; }, 10);
+
+            // 2. 0.6秒后切换内容
+            setTimeout(() => {
+                document.getElementById('start-page').classList.add('hidden');
+                document.getElementById('end-page').classList.remove('hidden');
+                startText();
+                startEmojis();
+            }, 600);
+
+            // 3. 1.2秒后移除转场层
+            setTimeout(() => {
+                trans.style.opacity = '0';
+                setTimeout(() => { trans.style.display = 'none'; }, 500);
+            }, 1200);
         }
 
-        const text = "嘿，可爱的维雯：\n祝你生日快乐呀！愿你每天都像草莓一样甜，像云朵一样轻盈。新的一年，愿你被所有的温柔包围，好运连连～永远18岁~🍓✨";
-        let index = 0;
-
-        function typeWriter() {
-            const msgEl = document.getElementById("message");
-            if (index < text.length) {
-                const char = text.charAt(index);
-                msgEl.innerHTML += char === '\n' ? '<br>' : char;
-                index++;
-                setTimeout(typeWriter, 120);
+        const msg = "嘿，可爱的维雯：\n祝你生日快乐呀！愿你每天都像草莓一样甜，像云朵一样轻盈。新的一年，愿你被所有的温柔包围，好运连连～永远18岁~🍓✨";
+        let i = 0;
+        function startText() {
+            if (i < msg.length) {
+                document.getElementById("message").innerHTML += msg.charAt(i) === '\n' ? '<br>' : msg.charAt(i);
+                i++;
+                setTimeout(startText, 100);
             }
         }
 
-        // 核心跳转函数：带特效
-        function startCelebration() {
-            const overlay = document.getElementById('transition-overlay');
-            const heart = document.getElementById('transition-heart');
-            const card = document.getElementById('card');
-            const startScreen = document.getElementById('start-screen');
-            const content = document.getElementById('content');
-
-            // 1. 显示转场层并启动心形爆炸动画
-            overlay.style.display = 'flex';
-            heart.classList.add('heart-explode');
-
-            // 2. 动画中间点：切换内容 (约 0.6s 后)
-            setTimeout(() => {
-                startScreen。classList.add('hidden');
-                content.classList.remove('hidden');
-                card.style.opacity = '1'; // 确保卡片可见
-            }, 600);
-
-            // 3. 动画结束：开始打字和表情雨 (约 1.2s 后)
-            setTimeout(() => {
-                overlay.style.display = 'none'; // 隐藏转场层
-                heart.classList.remove('heart-explode'); // 重置动画
-                content.classList.remove('transparent'); // 让文字淡入显示
-                
-                typeWriter();
-                createEmojis();
-            }, 1200);
+        function startEmojis() {
+            const container = document.getElementById('emoji-container');
+            const icons = ['🎈', '🍬', '🍓', '🎀', '🧸'];
+            setInterval(() => {
+                const e = document.createElement('div');
+                e.className = 'float-emoji';
+                e.innerText = icons[Math.floor(Math.random() * icons.length)];
+                e.style.left = Math.random() * 90 + 'vw';
+                container.appendChild(e);
+                setTimeout(() => e.remove(), 5000);
+            }, 400);
         }
     </script>
 </body>
