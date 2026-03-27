@@ -18,20 +18,30 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            font-family: 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
             background-color: var(--bg-color);
             display: flex;
             justify-content: center;
             align-items: center;
             color: var(--text-color);
+            /* 防止手机点击变蓝框 */
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* 🌸 背景装饰：漂浮的表情包 🌸 */
+        /* 背景装饰层级设为 1 */
+        #emoji-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none; /* 关键：让背景不阻挡点击 */
+        }
+
         .float-emoji {
             position: absolute;
             font-size: 24px;
-            user-select: none;
-            z-index: 1;
             animation: floatUp 6s linear infinite;
             opacity: 0.6;
         }
@@ -42,13 +52,13 @@
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
-        /* 可爱卡片 */
+        /* 卡片层级设为 10 */
         .card {
             width: 82%;
             max-width: 320px;
             background: white;
             padding: 40px 20px;
-            border-radius: 40px; /* 超圆润边角 */
+            border-radius: 40px;
             box-shadow: 0 10px 25px rgba(255, 183, 197, 0.3);
             text-align: center;
             z-index: 10;
@@ -56,8 +66,7 @@
             position: relative;
         }
 
-        /* 卡片上的小装饰 */
-        .card::before {
+        。card::before {
             content: '☁️';
             position: absolute;
             top: -25px;
@@ -65,11 +74,20 @@
             font-size: 40px;
         }
 
-        /* 🎂 摇晃的小蛋糕 */
-        。cake {
-            font-size: 80px;
-            cursor: pointer;
+        /* 🎂 蛋糕容器：增加点击范围 */
+        .cake-wrapper {
             display: inline-block;
+            cursor: pointer;
+            padding: 20px;
+            transition: transform 0.2s;
+        }
+        
+        。cake-wrapper:active {
+            transform: scale(0.9);
+        }
+
+        .cake {
+            font-size: 80px;
             animation: wiggle 2s ease-in-out infinite;
         }
 
@@ -81,8 +99,7 @@
         h1 {
             font-size: 1.6rem;
             color: var(--main-pink);
-            margin-top: 20px;
-            letter-spacing: 2px;
+            margin-top: 10px;
         }
 
         .name-tag {
@@ -96,11 +113,11 @@
             line-height: 1.8;
             font-size: 1rem;
             margin-top: 20px;
-            min-height: 100px;
-            font-weight: 500;
+            min-height: 80px;
+            white-space: pre-wrap; /* 保留换行 */
         }
 
-        .btn {
+        。btn {
             background: var(--main-pink);
             color: white;
             border: none;
@@ -108,16 +125,10 @@
             border-radius: 50px;
             margin-top: 25px;
             font-size: 0.9rem;
-            box-shadow: 0 4px 0px #e6a1af; /* 扁平化可爱风阴影 */
-            transition: all 0.2s;
+            box-shadow: 0 4px 0px #e6a1af;
         }
 
-        .btn:active {
-            transform: translateY(3px);
-            box-shadow: 0 1px 0px #e6a1af;
-        }
-
-        .hidden { display: none; }
+        。hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -126,19 +137,20 @@
 
     <div class="card">
         <div id="start-screen">
-            <div class="cake" onclick="start()">🎂</div>
-            <p style="margin-top:20px; color:#aaa;">点点小蛋糕<br>看看维雯的生日惊喜</p>
+            <div class="cake-wrapper" onclick="startCelebration()">
+                <div class="cake">🎂</div>
+            </div>
+            <p style="margin-top:10px; color:#aaa; font-size: 0.9rem;">点点小蛋糕<br>看看维雯的生日惊喜</p>
         </div>
 
         <div id="content" class="hidden">
             <h1><span class="name-tag">许维雯</span><br>生日快乐呀！🌸</h1>
             <div id="message"></div>
-            <button class="btn" onclick="location.reload()">再亲一下按钮</button>
+            <button class="btn" onclick="location.reload()">再看一遍</button>
         </div>
     </div>
 
     <script>
-        // 生成可爱漂浮物
         const emojis = ['🎈', '🍬', '✨', '☁️', '🍓', '🎀', '🧸'];
         function createEmojis() {
             const container = document.getElementById('emoji-container');
@@ -146,28 +158,29 @@
                 const emoji = document.createElement('div');
                 emoji.className = 'float-emoji';
                 emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-                emoji。style.left = Math.random() * 100 + 'vw';
-                emoji。style.animationDuration = (Math.random() * 3 + 4) + 's';
+                emoji.style.left = Math.random() * 90 + 'vw';
+                emoji.style.animationDuration = (Math.random() * 3 + 4) + 's';
                 container.appendChild(emoji);
-                
                 setTimeout(() => emoji.remove(), 6000);
-            }, 500);
+            }, 6000 / emojis.length);
         }
 
-        const text = "嘿，可爱的雯：\n祝你生日快乐呀！愿你每天都像草莓一样甜，像云朵一样轻盈。不管几岁，都要保持好奇心和奇奇怪怪的可爱！新的一年，愿你被所有的温柔包围，好运连连～永远18岁~🍓✨";
+        const text = "嘿，可爱的维雯：\n祝你生日快乐呀！愿你每天都像草莓一样甜，像云朵一样轻盈。新的一年，愿你被所有的温柔包围，好运连连～永远18岁~🍓✨";
         let index = 0;
 
         function typeWriter() {
+            const msgEl = document.getElementById("message");
             if (index < text.length) {
-                const msgEl = document.getElementById("message");
                 const char = text.charAt(index);
                 msgEl.innerHTML += char === '\n' ? '<br>' : char;
                 index++;
-                setTimeout(typeWriter, 150);
+                setTimeout(typeWriter, 120);
             }
         }
 
-        function start() {
+        // 核心跳转函数
+        function startCelebration() {
+            console.log("点击成功！"); // 调试用
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('content').classList.remove('hidden');
             createEmojis();
