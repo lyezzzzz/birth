@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>许维雯，生日快乐！✨</title>
+    <title>给雯的生日惊喜 🎀</title>
     <style>
         :root {
-            /* 调整为更可爱的粉嫩色调 */
-            --primary-color: #ff85a2; 
-            --secondary-color: #fbb;
-            --neon-color: #fff;
+            --bg-color: #fff9fb;
+            --main-pink: #ffb7c5;
+            --soft-yellow: #ffedbc;
+            --text-color: #7d5a5a;
         }
 
         body, html {
@@ -18,232 +18,160 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            font-family: 'Helvetica Neue', Helvetica, Arial, 'PingFang SC', sans-serif;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); /* 更柔和的背景 */
+            font-family: 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background-color: var(--bg-color);
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #555;
-            -webkit-font-smoothing: antialiased;
+            color: var(--text-color);
         }
 
-        /* 🌸 特效1: 可爱樱花/爱心飘落 🌸 */
-        .petal {
+        /* 🌸 背景装饰：漂浮的表情包 🌸 */
+        .float-emoji {
             position: absolute;
-            background-color: var(--primary-color);
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 0.7;
+            font-size: 24px;
+            user-select: none;
             z-index: 1;
-            animation: fall linear infinite;
+            animation: floatUp 6s linear infinite;
+            opacity: 0.6;
         }
 
-        /* 浪漫心形修饰 (可选) */
-        .petal.heart {
-            background-color: transparent;
-            opacity: 0.8;
-        }
-        .petal.heart::before,
-        .petal.heart::after {
-            content: "";
-            position: absolute;
-            background-color: #ffb6c1;
-            width: 10px;
-            height: 16px;
-            border-radius: 10px 10px 0 0;
-        }
-        .petal.heart::before {
-            transform: rotate(-45deg);
-            left: 5px;
-        }
-        .petal.heart::after {
-            transform: rotate(45deg);
-            left: 0;
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
-        @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0.7; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* 主卡片容器 */
-        。card {
-            width: 88%;
-            max-width: 360px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 35px 25px;
-            border-radius: 25px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+        /* 可爱卡片 */
+        .card {
+            width: 82%;
+            max-width: 320px;
+            background: white;
+            padding: 40px 20px;
+            border-radius: 40px; /* 超圆润边角 */
+            box-shadow: 0 10px 25px rgba(255, 183, 197, 0.3);
             text-align: center;
             z-index: 10;
-            transform: translateY(20px);
-            opacity: 0;
-            animation: slideUp 1s ease-out forwards;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.4);
-        }
-
-        @keyframes slideUp {
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* 🎁 礼物盒点击交互 */
-        .gift-box-container {
-            margin: 20px 0;
-            perspective: 1000px;
-        }
-        .gift-box {
-            font-size: 70px;
-            cursor: pointer;
-            transition: transform 0.3s ease, filter 0.3s ease;
-            display: inline-block;
-        }
-        .gift-box:hover { transform: scale(1.1) rotate(5deg); }
-        .gift-box:active { transform: scale(0.95); }
-        .gift-box.open { animation: puffOut 0.5s ease-out forwards; }
-
-        @keyframes puffOut {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(2); opacity: 0; visibility: hidden; }
-        }
-
-        /* 🎸 特效2: 炫酷霓虹灯名字 🎸 */
-        .neon-title {
-            font-family: 'Poppins', sans-serif; /* 英文稍扁平更炫酷 */
-            font-weight: 700;
-            color: #333; /* 初始颜色 */
-            margin-bottom: 20px;
-            font-size: 1.8rem;
+            border: 4px solid var(--soft-yellow);
             position: relative;
         }
 
-        .neon-name {
-            color: var(--neon-color);
-            text-shadow: 
-                0 0 5px var(--neon-color),
-                0 0 10px var(--neon-color),
-                0 0 20px var(--primary-color),
-                0 0 30px var(--primary-color),
-                0 0 40px var(--primary-color);
-            animation: neon-flicker 2s infinite alternate;
+        /* 卡片上的小装饰 */
+        .card::before {
+            content: '☁️';
+            position: absolute;
+            top: -25px;
+            left: 20px;
+            font-size: 40px;
         }
 
-        @keyframes neon-flicker {
-            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-                text-shadow: 0 0 5px var(--neon-color), 0 0 10px var(--neon-color), 0 0 20px var(--primary-color), 0 0 30px var(--primary-color);
-            }
-            20%， 22%, 24%, 55% {
-                text-shadow: none;
-                color: #888;
-            }
+        /* 🎂 摇晃的小蛋糕 */
+        。cake {
+            font-size: 80px;
+            cursor: pointer;
+            display: inline-block;
+            animation: wiggle 2s ease-in-out infinite;
         }
-        
-        /* 祝福语打字机 */
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            color: var(--main-pink);
+            margin-top: 20px;
+            letter-spacing: 2px;
+        }
+
+        .name-tag {
+            background: var(--soft-yellow);
+            padding: 2px 10px;
+            border-radius: 10px;
+            color: #d48a8a;
+        }
+
         #message {
             line-height: 1.8;
+            font-size: 1rem;
+            margin-top: 20px;
             min-height: 100px;
-            font-size: 1.05rem;
-            color: #666;
-            margin-top: 15px;
-            padding: 0 10px;
+            font-weight: 500;
         }
-
-        .hidden { display: none !important; }
 
         .btn {
-            background: linear-gradient(45deg, var(--primary-color), #ffacb7);
+            background: var(--main-pink);
             color: white;
             border: none;
-            padding: 12px 30px;
-            border-radius: 30px;
-            margin-top: 30px;
-            font-size: 1rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            box-shadow: 0 5px 20px rgba(255, 133, 162, 0.4);
-            transition: all 0.3s ease;
+            padding: 12px 35px;
+            border-radius: 50px;
+            margin-top: 25px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 0px #e6a1af; /* 扁平化可爱风阴影 */
+            transition: all 0.2s;
         }
-        .btn:active { transform: translateY(2px); box-shadow: 0 2px 10px rgba(255, 133, 162, 0.4); }
 
+        .btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0px #e6a1af;
+        }
+
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="petal-container"></div>
+    <div id="emoji-container"></div>
 
-    <div class="card" id="card">
+    <div class="card">
         <div id="start-screen">
-            <div class="gift-box-container">
-                <div class="gift-box" id="giftBox" onclick="startCelebration()">🎁</div>
-            </div>
-            <p style="color: #888; font-size: 0.9rem;">雯，点开这个盒子<br>里面有专属你的惊喜 ✨</p>
+            <div class="cake" onclick="start()">🎂</div>
+            <p style="margin-top:20px; color:#aaa;">点点小蛋糕<br>看看维雯的生日惊喜</p>
         </div>
 
         <div id="content" class="hidden">
-            <h1 class="neon-title">Happy Birthday,<br><span class="neon-name">许维雯</span>！🎂</h1>
+            <h1><span class="name-tag">许维雯</span><br>生日快乐呀！🌸</h1>
             <div id="message"></div>
-            <button class="btn" onclick="location.reload()">再看一遍</button>
+            <button class="btn" onclick="location.reload()">再亲一下按钮</button>
         </div>
     </div>
 
     <script>
-        // 🌸 自动生成飘落物 (可爱版) 🌸
-        function createPetals() {
-            const container = document.getElementById('petal-container');
-            const petalCount = 25; // 移动端不宜过多
-
-            for(let i=0; i<petalCount; i++) {
-                const petal = document.createElement('div');
-                // 随机生成樱花或小爱心
-                petal.className = Math.random() > 0.6 ? 'petal heart' : 'petal';
+        // 生成可爱漂浮物
+        const emojis = ['🎈', '🍬', '✨', '☁️', '🍓', '🎀', '🧸'];
+        function createEmojis() {
+            const container = document.getElementById('emoji-container');
+            setInterval(() => {
+                const emoji = document.createElement('div');
+                emoji.className = 'float-emoji';
+                emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji。style.left = Math.random() * 100 + 'vw';
+                emoji。style.animationDuration = (Math.random() * 3 + 4) + 's';
+                container.appendChild(emoji);
                 
-                // 随机属性
-                const size = Math.random() * 15 + 10 + 'px'; // 10-25px
-                if (!petal.classList.contains('heart')) {
-                    petal.style.width = size;
-                    petal.style.height = size;
-                    petal.style.backgroundColor = `hsl(${Math.random() * 20 + 340}, 100%, ${Math.random() * 10 + 85}%)`; // 各种粉色
-                }
-                
-                petal.style.left = Math.random() * 100 + 'vw';
-                petal.style.animationDelay = Math.random() * 8 + 's';
-                petal.style.animationDuration = Math.random() * 5 + 5 + 's'; // 5-10s 慢速飘落
-
-                container.appendChild(petal);
-            }
+                setTimeout(() => emoji.remove(), 6000);
+            }, 500);
         }
 
-        // 祝福语 (已加上名字)
-        const text = "可爱的维雯：\n在这个专属于你的日子里，愿你永远眼含笑意，心怀热忱。愿你新的一岁，百事从欢，平安喜乐，所有的温柔与好运都如期而至！祝你生日快乐，美梦成真！永远18岁~🌸✨";
+        const text = "嘿，可爱的雯：\n祝你生日快乐呀！愿你每天都像草莓一样甜，像云朵一样轻盈。不管几岁，都要保持好奇心和奇奇怪怪的可爱！新的一年，愿你被所有的温柔包围，好运连连～永远18岁~🍓✨";
         let index = 0;
 
-        // 打字机效果
         function typeWriter() {
             if (index < text.length) {
                 const msgEl = document.getElementById("message");
                 const char = text.charAt(index);
                 msgEl.innerHTML += char === '\n' ? '<br>' : char;
                 index++;
-                
-                // 稍微随机化打字速度，更像真人
-                const speed = char === '，' || char === '。' ? 400 : 120;
-                setTimeout(typeWriter, speed);
+                setTimeout(typeWriter, 150);
             }
         }
 
-        function startCelebration() {
-            const giftBox = document.getElementById('giftBox');
-            // 礼物盒动画
-            giftBox.classList.add('open');
-            
-            // 延迟显示内容，配合礼物盒消失
-            setTimeout(() => {
-                document.getElementById('start-screen').classList.add('hidden');
-                document.getElementById('content').classList.remove('hidden');
-                typeWriter();
-            }, 500);
-            
-            createPetals(); // 开启飘落
+        function start() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('content').classList.remove('hidden');
+            createEmojis();
+            typeWriter();
         }
     </script>
 </body>
