@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日快乐！✨</title>
+    <style>
+        :root {
+            --primary-color: #ff758c;
+            --secondary-color: #ff7eb3;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #fad0c4 0%, #ffd1ff 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #4a4a4a;
+        }
+
+        /* 背景气球动画 */
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 40px;
+            height: 50px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0.6;
+            z-index: 1;
+            animation: float 8s infinite ease-in;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(-120vh) rotate(20deg); opacity: 0; }
+        }
+
+        /* 主卡片容器 */
+        .card {
+            width: 85%;
+            max-width: 350px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            z-index: 10;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .gift-box {
+            font-size: 60px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .gift-box:active { transform: scale(0.9); }
+
+        h1 { color: var(--primary-color); margin-bottom: 10px; font-size: 1.5rem; }
+        
+        #message {
+            line-height: 1.6;
+            min-height: 80px;
+            font-size: 1.1rem;
+        }
+
+        .hidden { display: none; }
+
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="balloon-container"></div>
+
+    <div class="card" id="card">
+        <div id="start-screen">
+            <div class="gift-box" onclick="startCelebration()">🎁</div>
+            <p>点开这个盒子，有份惊喜送给你</p>
+        </div>
+
+        <div id="content" class="hidden">
+            <h1 id="title">Happy Birthday! 🎂</h1>
+            <div id="message"></div>
+            <button class="btn" onclick="location.reload()">再看一遍</button>
+        </div>
+    </div>
+
+    <script>
+        // 自动生成气球
+        function createBalloons() {
+            const container = document.getElementById('balloon-container');
+            for(let i=0; i<15; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.left = Math.random() * 100 + 'vw';
+                balloon.style.animationDelay = Math.random() * 5 + 's';
+                balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 75%)`;
+                container.appendChild(balloon);
+            }
+        }
+
+        // 打字机效果
+        const text = "亲爱的朋友：\n在这个特殊的日子里，愿你眼光清澈，内心炽热。愿所有的好运都与你环环相扣！愿你每一岁都奔走在自己的热爱里！✨";
+        let index = 0;
+
+        function typeWriter() {
+            if (index < text.length) {
+                document.getElementById("message").innerHTML += text.charAt(index) === '\n' ? '<br>' : text.charAt(index);
+                index++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+
+        function startCelebration() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('content').classList.remove('hidden');
+            typeWriter();
+            createBalloons();
+        }
+    </script>
+</body>
+</html>
